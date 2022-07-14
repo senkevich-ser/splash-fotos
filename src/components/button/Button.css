@@ -1,0 +1,13 @@
+.button{
+    color:azure;
+    background-color: black;
+    margin: auto;
+    padding: 0;
+    width: 17%;
+    height: 100%;
+}
+
+.button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
