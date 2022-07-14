@@ -6,8 +6,8 @@ class Api {
       this._apiKey = apiKey;
    }
 
-   search(query) {
-      return fetch(`${this._baseUrl}/search/photos?query=${query}`, {
+   search(query,pageNamber) {
+      return fetch(`${this._baseUrl}/search/photos?query=${query}&count=20&per_page=30&page=${pageNamber}`, {
          headers: {
             Authorization: `Client-ID ${this._apiKey}`
          }

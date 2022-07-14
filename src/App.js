@@ -12,10 +12,10 @@ function App() {
 
   const [search, setSearch] = React.useState('usa');
   const [cards, setCards] = React.useState([]);
-  
+  const [pageNamber,setPageNamber] = React.useState(1);
 
-  function searchPhoto(search){
-    api.search(search).then((res) => {
+  function searchPhoto(search,pageNamber){
+    api.search(search,pageNamber).then((res) => {
       const arr = res.results.map((item) => {
         return {
           src: item.urls.regular,
@@ -30,7 +30,7 @@ function App() {
   }
 
   React.useEffect(() => {
-    searchPhoto(search)
+    searchPhoto(search,pageNamber)
   }, [])
 
   function handelSubmit(evt){
@@ -39,14 +39,19 @@ function App() {
   }
 
 const handleChange=(evt)=>{
-  setSearch(evt.target.value);
-  
+  setSearch(evt.target.value); 
+}
+
+function nextPage(){
+  setPageNamber(pageNamber+1);
+  searchPhoto(search,pageNamber);
 }
 
   return (
     <div className="App">
       <header>
         <h1>Найди любимые фото</h1>
+        </header>
       <form  className='search-container' onSubmit={handelSubmit}>
        <Input placeholder={"Введите поисковое слово"} handleChange={handleChange}/> 
        <Button/>
@@ -55,8 +60,8 @@ const handleChange=(evt)=>{
         {cards.map((card)=>(
           <Card key={card.id} item={card}/>
         ))}
-      </div>
-      </header>
+      </div> 
+      <button type='button' className='button elseBtn' onClick={nextPage}>Ещё</button> 
     </div>
   );
 }

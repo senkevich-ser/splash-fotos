@@ -18,13 +18,19 @@
   
   .card-title {
     font-weight: 700;
-    width: 70%;
+    width: 100%;
     margin-top: 20px;
     margin-bottom: 0;
   }
   
   .card-subtitle {
     color: #767676;
-    width: 70%;
+    width: 100%;
     margin-top:5px;
+  }
+
+  .title-cutter {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
