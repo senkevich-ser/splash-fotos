@@ -11,6 +11,7 @@
 .App{
   max-width: 860px;
   margin: 90px auto;
+  position: relative;
 }
 
 .search-container {
@@ -26,3 +27,8 @@
   margin-bottom: 48px;
 }
 
+.opacity:hover {
+  opacity: 0.6;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}

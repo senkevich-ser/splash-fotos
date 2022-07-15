@@ -13,11 +13,12 @@ function App() {
 
   const [search, setSearch] = React.useState('usa');
   const [cards, setCards] = React.useState([]);
-  const [pageNamber,setPageNamber] = React.useState(1);
-  const [itemClick,setItemClick] = React.useState({});
+  const [pageNamber, setPageNamber] = React.useState(1);
+  const [itemClick, setItemClick] = React.useState({});
+  const [isOpenPhotoPopup, setIsOpenPhotoPopup] = React.useState(false);
 
-  function searchPhoto(search,pageNamber){
-    api.search(search,pageNamber).then((res) => {
+  function searchPhoto(search, pageNamber) {
+    api.search(search, pageNamber).then((res) => {
       const arr = res.results.map((item) => {
         return {
           src: item.urls.regular,
@@ -32,44 +33,48 @@ function App() {
   }
 
   React.useEffect(() => {
-    searchPhoto(search,pageNamber)
+    searchPhoto(search, pageNamber)
   }, [])
 
-  function handelSubmit(evt){
+  function handelSubmit(evt) {
     evt.preventDefault()
-   searchPhoto(search)
+    searchPhoto(search)
   }
 
-const handleChange=(evt)=>{
-  setSearch(evt.target.value); 
-}
+  const handleChange = (evt) => {
+    setSearch(evt.target.value);
+  }
 
-function nextPage(){
-  setPageNamber(pageNamber+1);
-  searchPhoto(search,pageNamber);
-}
+  function nextPage() {
+    setPageNamber(pageNamber + 1);
+    searchPhoto(search, pageNamber);
+  }
 
-const handleCardClick=(card)=>{
-  setItemClick(card)
-  console.log(card)
-}
+  const handleCardClick = (card) => {
+    setItemClick(card)
+    setIsOpenPhotoPopup(true)
+  }
+
+  const closePopup = () => {
+    setIsOpenPhotoPopup(false)
+  }
 
   return (
     <div className="App">
       <header>
         <h1>Найди любимые фото</h1>
-        </header>
-      <form  className='search-container' onSubmit={handelSubmit}>
-       <Input placeholder={"Введите поисковое слово"} handleChange={handleChange}/> 
-       <Button/>
+      </header>
+      <form className='search-container' onSubmit={handelSubmit}>
+        <Input placeholder={"Введите поисковое слово"} handleChange={handleChange} />
+        <Button />
       </form>
       <div className='card-container'>
-        {cards.map((card)=>(
-          <Card key={card.id} item={card} handelCardClick={handleCardClick}/>
+        {cards.map((card) => (
+          <Card key={card.id} item={card} handelCardClick={handleCardClick} />
         ))}
-      </div> 
-      <button type='button' className='button elseBtn' onClick={nextPage}>Ещё</button>
-      <PhotoPopup isOpen={true} clickCard={itemClick}/> 
+      </div>
+      <button type='button' className='button elseBtn opacity' onClick={nextPage}>Ещё</button>
+      {isOpenPhotoPopup && <PhotoPopup isOpen={isOpenPhotoPopup} clickCard={itemClick} onClose={closePopup} />}
     </div>
   );
 }
