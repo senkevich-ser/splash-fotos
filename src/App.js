@@ -3,6 +3,7 @@ import api from './utils/Api'
 
 import './App.css';
 import React from 'react';
+import Header from './components/header/Header';
 import Input from './components/input/Input';
 import Button from './components/button/Button';
 import Card from './components/card/Card';
@@ -16,6 +17,8 @@ function App() {
   const [pageNamber, setPageNamber] = React.useState(1);
   const [itemClick, setItemClick] = React.useState({});
   const [isOpenPhotoPopup, setIsOpenPhotoPopup] = React.useState(false);
+
+
 
   function searchPhoto(search, pageNamber) {
     api.search(search, pageNamber).then((res) => {
@@ -31,6 +34,7 @@ function App() {
       setCards(arr);
     })
   }
+
 
   React.useEffect(() => {
     searchPhoto(search, pageNamber)
@@ -59,11 +63,26 @@ function App() {
     setIsOpenPhotoPopup(false)
   }
 
+  const listenScrollEvent = () => {
+    const cardContainer = document.querySelector('.card-container');
+    const firstCard = cardContainer.firstChild.offsetTop;
+    const lastCard = cardContainer.lastElementChild.offsetTop;
+    console.log(window.pageYOffset, firstCard, lastCard)
+  }
+  React.useEffect(() => {
+    window.addEventListener('scroll', listenScrollEvent)
+    return () => (
+      window.removeEventListener('scroll', listenScrollEvent)
+    )
+  }, [])
+
+
+
+
+
   return (
     <div className="App">
-      <header>
-        <h1>Найди любимые фото</h1>
-      </header>
+      <Header />
       <form className='search-container' onSubmit={handelSubmit}>
         <Input placeholder={"Введите поисковое слово"} handleChange={handleChange} />
         <Button />
