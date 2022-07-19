@@ -21,6 +21,7 @@ function App() {
 
 
   function searchPhoto(search, pageNamber) {
+    console.log(search, pageNamber)
     api.search(search, pageNamber).then((res) => {
       const arr = res.results.map((item) => {
         return {
@@ -38,11 +39,11 @@ function App() {
 
   React.useEffect(() => {
     searchPhoto(search, pageNamber)
-  }, [])
+  }, [search, pageNamber])
 
   function handelSubmit(evt) {
     evt.preventDefault()
-    searchPhoto(search)
+    searchPhoto(search, pageNamber)
   }
 
   const handleChange = (evt) => {
@@ -52,6 +53,7 @@ function App() {
   function nextPage() {
     setPageNamber(pageNamber + 1);
     searchPhoto(search, pageNamber);
+    document.documentElement.scrollIntoView(true);
   }
 
   const handleCardClick = (card) => {
@@ -63,18 +65,19 @@ function App() {
     setIsOpenPhotoPopup(false)
   }
 
-  const listenScrollEvent = () => {
+  /* const listenScrollEvent = () => {
     const cardContainer = document.querySelector('.card-container');
-    const firstCard = cardContainer.firstChild.offsetTop;
     const lastCard = cardContainer.lastElementChild.offsetTop;
-    console.log(window.pageYOffset, firstCard, lastCard)
-  }
-  React.useEffect(() => {
-    window.addEventListener('scroll', listenScrollEvent)
-    return () => (
-      window.removeEventListener('scroll', listenScrollEvent)
-    )
-  }, [])
+    if (window.pageYOffset + 410 === lastCard) {
+      nextPage()
+    }
+  } */
+  /*  React.useEffect(() => {
+     window.addEventListener('scroll', listenScrollEvent)
+     return () => (
+       window.removeEventListener('scroll', listenScrollEvent)
+     )
+   }, []) */
 
 
 
